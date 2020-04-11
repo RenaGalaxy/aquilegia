@@ -34,8 +34,8 @@
 
 - name: group 'wheel' can sudo
   copy:
-    src: sudoers
-    dest: /etc/sudoers
+    src: 'sudoers'
+    dest: '/etc/sudoers'
     owner: root
     group: root
     mode: 0440
@@ -43,3 +43,25 @@
 
 # TODO: sudoers をアップロード
 # TODO: authorized_keys_for_ansible をアップロード (暗号化してから)
+
+# sshd 設定
+
+- name: sshd is configured
+  notify:
+    - restart sshd
+  copy:
+    src: 'sshd_config'
+    dest: '/etc/ssh/sshd_config'
+    owner: root
+    group: root
+    mode: 0600
+  tags: sshd
+
+- name: sshd is enabled and started
+  service:
+    name: sshd
+    state: started
+    enabled: yes
+  tags: sshd
+
+  # TODO: パスワード認証を無効にする sshd_config を files に置く
