@@ -1,7 +1,7 @@
 ---
 
 #---- 共通ユーザー ----#
-# 管理対象が全部 Linux という前提で common に書く。
+# 管理対象が全部 Linux という前提で common に書いていく。
 
 - name: users exist
   user: >
@@ -44,7 +44,8 @@
 # TODO: sudoers をアップロード
 # TODO: authorized_keys_for_ansible をアップロード (暗号化してから)
 
-# sshd 設定
+#---- sshd 設定 ----#
+#
 
 - name: sshd is configured
   notify:
@@ -65,3 +66,15 @@
   tags: sshd
 
   # TODO: パスワード認証を無効にする sshd_config を files に置く
+
+#---- firewalld 構成 ----#
+# FW ポリシーはグループごとにまとめる。
+
+- name: firewalld is configured
+  firewalld: >
+    service: {{ item.service }}
+    permanent=yes
+    state=enabled
+    immediate=yes
+  with_items: '{{ policies }}'
+  tags: firewalld

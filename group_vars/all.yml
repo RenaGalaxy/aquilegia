@@ -2,5 +2,8 @@
 
 # openssl passwd -1 XXXX でパスワード生成
 # ansible-vault を使うべきだけど、今はひとまずコレで。
+
+#---- 共通ユーザー ----#
+
 users:
   - { name: ansible, password: $1$VyW//bAx$Ry/Hf0DswzThfRkkU7Njx0, groups: "wheel" }
