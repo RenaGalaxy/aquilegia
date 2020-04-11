@@ -1,0 +1,45 @@
+---
+
+#---- 共通ユーザー ----#
+# 管理対象が全部 Linux という前提で common に書く。
+
+- name: users exist
+  user: >
+    name={{ item.name }}
+    state=present
+    password={{ item.password }}
+    groups={{ item.groups }}
+  witth_items: '{{ users }}'
+  tags: users
+
+- name: ~/.ssh exist
+  file: >
+    path="/home/{{ item.name }}/.ssh"
+    state=directory
+    owner={{ item.name }}
+    group={{ item.name }}
+    mode=0700
+  with_items: '{{ users }}'
+  tags: users
+
+- name: authorized_keys is deployed
+  copy: >
+    src="authorized_keys_for_{{ item.name }}"
+    dest="/home/{{ item.name }}/.ssh/authorized_keys"
+    owner={{ item.name }}
+    group={{ item.name }}
+    mode=0600
+  with_items: '{{ users }}'
+  tags: users
+
+- name: group 'wheel' can sudo
+  copy:
+    src: sudoers
+    dest: /etc/sudoers
+    owner: root
+    group: root
+    mode: 0440
+  tags: users
+
+# TODO: sudoers をアップロード
+# TODO: authorized_keys_for_ansible をアップロード (暗号化してから)

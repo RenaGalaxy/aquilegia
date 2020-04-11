@@ -1,0 +1,6 @@
+all:
+  children:
+    servers:
+      hosts:
+        x.x.x.x:
+# TODO: 管理対象を指定
