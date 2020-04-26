@@ -1,0 +1,52 @@
+---
+
+#---- docker ----#
+
+- name: docker repository exist
+  copy:
+    src: 'docker-ce.repo'
+    dest: '/etc/yum.repos.d/docker-ce.repo'
+    owner: root
+    group: root
+    mode: 0644
+  tags: docker
+
+- name: containerd.io source exist
+  copy:
+    src: 'containerd.io-1.2.2-3.3.el7.x86_64.rpm'
+    dest: '/usr/local/src/containerd.io-1.2.2-3.3.el7.x86_64.rpm'
+    owner: root
+    group: root
+    mode: 0644
+  tags: docker
+
+- name: containerd.io installed (local)
+  yum:
+    name: /usr/local/src/containerd.io-1.2.2-3.3.el7.x86_64.rpm
+    state: present
+  tags: docker
+
+- name: ensure a list of packages installed
+  yum:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - docker-py
+    state: present
+  tags: docker
+
+- name: docker-compose installed
+  copy:
+    src: 'docker-compose'
+    dest: '/usr/local/bin/docker-compose'
+    owner: root
+    group: root
+    mode: 0755
+  tags: docker
+
+- name: docker is started and enabled
+  service:
+    name: docker
+    state: started
+    enabled: yes
+  tags: docker
