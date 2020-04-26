@@ -1,0 +1,11 @@
+all:
+  children:
+    ansibleservers:
+      hosts:
+        ansible.dev.renagalaxy.com:
+          ansible_host: x.x.x.x
+    servers:
+      hosts:
+        test.dev.renagalaxy.com:
+          ansible_host: x.x.x.x
+# TODO: 管理対象を指定
