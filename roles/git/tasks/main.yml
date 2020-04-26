@@ -1,0 +1,9 @@
+---
+
+#---- Git ----#
+
+- name: git installed
+  yum:
+    name: git
+    state: installed
+  tags: git
