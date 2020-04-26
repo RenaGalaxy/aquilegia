@@ -1,0 +1,9 @@
+---
+
+#---- ansible ----#
+
+- name: ansible installed
+  yum:
+    name: ansible
+    state: installed
+  tags: ansible
