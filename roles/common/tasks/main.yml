@@ -65,16 +65,14 @@
     enabled: yes
   tags: sshd
 
-  # TODO: パスワード認証を無効にする sshd_config を files に置く
-
 #---- firewalld 構成 ----#
 # FW ポリシーはグループごとにまとめる。
 
-- name: firewalld is configured
-  firewalld: >
-    service: {{ item.service }}
-    permanent=yes
-    state=enabled
-    immediate=yes
+- name: firewalld configured
+  firewalld:
+    service: '{{ item.service }}'
+    permanent: yes
+    state: enabled
+    immediate: yes
   with_items: '{{ policies }}'
   tags: firewalld
