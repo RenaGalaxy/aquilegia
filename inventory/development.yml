@@ -4,6 +4,10 @@ all:
       hosts:
         ansible.dev.renagalaxy.com:
           ansible_host: x.x.x.x
+      vars:
+        git:
+          name: renagalaxy
+          email: renagalaxy2019@gmail.com
     servers:
       hosts:
         test.dev.renagalaxy.com:
